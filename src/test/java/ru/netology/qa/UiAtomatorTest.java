@@ -18,6 +18,7 @@ import ru.netology.qa.screens.Locator;
 public class UiAtomatorTest {
 
     private AndroidDriver driver;
+    private Locator locator; // объявила Locator как меременную класса
 
     private URL getUrl() {
         try {
@@ -33,6 +34,7 @@ public class UiAtomatorTest {
 
     @BeforeEach
     public void setUp() {
+
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         desiredCapabilities.setCapability("platformName", "Android");
         desiredCapabilities.setCapability("appium:deviceName", "myAndroid");
@@ -44,13 +46,13 @@ public class UiAtomatorTest {
         desiredCapabilities.setCapability("appium:newCommandTimeout", 3600);
         desiredCapabilities.setCapability("appium:connectHardwareKeyboard", true);
 
-
         driver = new AndroidDriver(getUrl(), desiredCapabilities);
+
+        locator = new Locator(driver); // инициализировала локатор
     }
 
     @Test
     public void EmptyInput() {
-        Locator locator = new Locator(driver);
         locator.userInput.sendKeys(textToSet);
         locator.buttonChange.click();
         locator.textToBeChanged.isDisplayed();
@@ -62,7 +64,6 @@ public class UiAtomatorTest {
 
     @Test
     public void NewActivity() {
-        Locator locator = new Locator(driver);
         locator.userInput.sendKeys(textToSet);
         locator.buttonActivity.click();
         locator.text.isDisplayed();
